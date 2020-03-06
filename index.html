@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Oxanium&display=swap');
+
+        .dive{
+            font-family: 'Oxanium', cursive;
+        }
+        .alerta{
+            display: none ;
+            position: absolute;
+            width: auto;
+            font-family: 'Oxanium', cursive;
+            font-weight: bolder;
+            z-index: 2000;
+            
+        }
+        .formulario{
+            display: none;
+        }
+        .btnnuevo{
+            position: relative;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="container ">
+        <h2 class="alerta alert-dark text-center p-3 m-3 mt-5 rounded ">SE GUARDO CON EXITO</h2>
+        <div class="col-4 offset-10">
+            <button class="btn btn-dark mt-5 p-2 pr-3 pl-3 btnnuevo">NUEVO</button>
+        </div>
+        <!--SECCION DE LA TABLA DE DATOS-->
+        <div class="container tdatos">
+            <div class="row">
+                <div class="col-10 tablaDatos">
+                    <!--AQUI VAN LOS DATOS -->
+
+
+                </div>
+            </div>
+        </div>
+        <!-- FIN DE LA SECCION DE LA TABLA DE DATOS-->
+
+    </div>
+    <div class="container formulario">
+        <div class="row">
+            <div class="col-6 table-dark offset-3 mt-5 rounded"> 
+                <div class="m-3 p-2 dive"  >
+                    <label for="txtnombre" >Nombre</label>
+                    <input class="form-control" type="text" id="txtnombre" name="txtnombre" placeholder="Nombre" ><br>
+                    <label for="txtapellido">Apellido</label>
+                    <input class="form-control" type="text" id="txtapellido" name="txtapellido" placeholder="Apellido"><br>
+                    <label for="txtdireccion">Direccion</label>
+                    <input class="form-control" type="text" id="txtdireccion" name="txtdireccion" placeholder="Direccion"><br>
+                    <label for="txttelefono">Telefono</label>
+                    <input class="form-control" type="text" id="txttelefono" name="txttelefono" placeholder="Telefono"><br>
+                    <button class="btn btn-primary offset-10" id="btnguardar">GUARDAR</button>
+                </div>
+            </div> 
+        </div>
+    </div>
+    
+</body>
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+    ;(function(){
+            $(".tablaDatos").load("tabla.php")
+            $(".btnnuevo").on("click",function(){
+            $(".tdatos").hide()
+            $(".formulario").show()
+            })
+
+    
+
+        $("#btnguardar").on("click",function(){
+            var nombre= $("#txtnombre").val()
+            var apellido= $("#txtapellido").val()
+            var direccion= $("#txtdireccion").val()
+            var telefono= $("#txttelefono").val()
+
+               $.ajax({
+                type:"Post",
+                url:"guardar.php",
+                data:{nombre, apellido, direccion, telefono },
+                dataType:"JSON"
+// este es un script donde te muestra un alert el cual dice se guardo correctamente 
+//            }).done(function(snap){
+//                if(snap == 2){
+//                    alert('SE GUARDO CORRECTAMENTE')
+//                }
+                
+ //           })
+                }).done(function(snap){
+                    if(snap == 2){
+                        var mensaje = $(".alerta");
+                    mensaje.delay("fast").fadeIn(1000).delay(300).fadeOut(1000);
+                }
+
+                })
+        })  
+
+        
+    })();
+</script>
+</html>
